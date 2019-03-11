@@ -20,7 +20,10 @@
 package edu.purdue.cs.tornado.spouts;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -48,7 +51,8 @@ import edu.purdue.cs.tornado.helper.SpatioTextualConstants;
  *
  */
 public class SampleUSATweetGenerator extends BaseRichSpout {
-	public static final String TWEETS_FILE_PATH = "TWEETS_FILE_PATH";
+	//public static final String TWEETS_FILE_PATH = "TWEETS_FILE_PATH";
+	public static final String TWEETS_FILE_PATH = "/Users/peytonpuckett/Desktop/S8/S8/CS490/OldTornadoDemo/qadahtm-tornado-c83372f024db/Tornado/datasources/twitterdata.csv";
 	private RandomGenerator randomGenerator;
 	private static final long serialVersionUID = 1L;
 	private SpoutOutputCollector collector;
@@ -57,7 +61,8 @@ public class SampleUSATweetGenerator extends BaseRichSpout {
 	BufferedReader br;
 	int i = 0;
 	FileInputStream fstream;
-	String filePath;//= "/home/ahmed/Downloads/sample_usa_tweets.csv"; //this is the sample path 
+	String filePath = "/Users/peytonpuckett/Desktop/S8/S8/CS490/OldTornadoDemo/qadahtm-tornado-c83372f024db/Tornado/datasources/twitterdata.csv";
+	//String filePath;//= "/home/ahmed/Downloads/sample_usa_tweets.csv"; //this is the sample path 
 
 	public void ack(Object msgId) {
 		System.out.println("OK:" + msgId);
@@ -74,8 +79,8 @@ public class SampleUSATweetGenerator extends BaseRichSpout {
 	public void nextTuple() {
 
 		String tweet = "";
-		try {
-
+		/*try {
+			
 			// Read File Line By Line
 			if ((tweet = br.readLine()) == null) {
 				br.close();
@@ -95,7 +100,24 @@ public class SampleUSATweetGenerator extends BaseRichSpout {
 				e1.printStackTrace(System.err);
 			}
 
+		}*/
+		System.out.println("file path is " + TWEETS_FILE_PATH);
+		File f = new File(TWEETS_FILE_PATH);
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(f));
+			while((tweet = br.readLine()) != null) {
+				System.out.println("Found tweet: " + tweet);
+			}
+			while((tweet = br.readLine()) == null) {
+				br.close();
+			}
+			
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
+		
+		
 		if (tweet == null || tweet.isEmpty())
 			return;
 		StringTokenizer stringTokenizer = new StringTokenizer(tweet, ",");
@@ -142,6 +164,9 @@ public class SampleUSATweetGenerator extends BaseRichSpout {
 		randomGenerator = new RandomGenerator(SpatioTextualConstants.generatorSeed);
 		this.conf = conf;
 		this.filePath = (String) conf.get(TWEETS_FILE_PATH);
+		//System.out.println("Given file path: " + this.filePath);
+		//System.out.println("Tweets file path: " + TWEETS_FILE_PATH);
+		//System.exit(0);
 		tweets = new ArrayList<String>();
 		try {
 			//FileInputStream fstream = new FileInputStream("datasources/twitterdata.csv");
