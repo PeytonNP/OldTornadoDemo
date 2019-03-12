@@ -101,12 +101,12 @@ public class SampleUSATweetGenerator extends BaseRichSpout {
 			}
 
 		}*/
-		System.out.println("file path is " + TWEETS_FILE_PATH);
+		//System.out.println("file path is " + TWEETS_FILE_PATH);
 		File f = new File(TWEETS_FILE_PATH);
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(f));
 			while((tweet = br.readLine()) != null) {
-				System.out.println("Found tweet: " + tweet);
+				//System.out.println("Found tweet: " + tweet);
 			}
 			while((tweet = br.readLine()) == null) {
 				br.close();
