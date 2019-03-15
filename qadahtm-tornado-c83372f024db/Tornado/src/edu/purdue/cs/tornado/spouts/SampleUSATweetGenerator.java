@@ -108,9 +108,29 @@ public class SampleUSATweetGenerator extends BaseRichSpout {
 			while((tweet = br.readLine()) != null) {
 				//System.out.println("Found tweet: " + tweet);
 			}
-			while((tweet = br.readLine()) == null) {
-				br.close();
+			boolean x = true;
+			while (x) {
+				try {
+					tweet = br.readLine();
+					if (tweet == null) {
+						br.close();
+					}
+					else {
+						x = false;
+					}
+				}
+				catch (IOException e){
+					
+				}
 			}
+			/*while((tweet = br.readLine()) == null) {
+				try {
+					br.close();
+				}
+				catch (IOException E){
+					
+				}
+			}*/
 			
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
